@@ -49,13 +49,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'paddleboarding_project.urls'
@@ -78,21 +78,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'paddleboarding_project.wsgi.application'
 
+# CORS_ALLOWED_ORIGINS = True
 
 # To use Neon with Django, you have to create a Project on Neon and specify the project connection settings in your settings.py in the same way as for standalone Postgres.
 
-DATABASES = {
-      'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    ),
-# 'ENGINE': 'django.db.backends.postgresql',
+# DATABASES = {
+#   'default': {
+#     'ENGINE': 'django.db.backends.postgresql',
 #     'NAME': 'miniprojectpaddleboarding',
 #     'USER': os.environ['DB_USER'],
 #     'PASSWORD': os.environ['DB_PW'],
 #     'HOST': os.environ['DB_HOST'],
 #     'PORT': '5432',
-}
+#   }
+# }
+
+
+DATABASES = {
+      'default': dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+} 
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -129,12 +136,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR,'main_app/static')]
 
 if not DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR,'main_app/static')]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
